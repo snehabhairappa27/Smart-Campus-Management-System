@@ -1,0 +1,5 @@
+{
+  "name": "Smart Campus Management System",
+  "description": "Smart Campus Management System for software apprentices: cohort directory, daily attendance tracking, lab and workstation reservations, and campus notices.",
+  "requestFramePermissions": []
+}

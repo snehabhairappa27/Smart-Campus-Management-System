@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -19,9 +19,637 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
   </head>
-  <body class="bg-slate-50 text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body>
+    <div id="mobile-backdrop" class="mobile-backdrop hidden" aria-hidden="true"></div>
+
+    <div class="app-shell">
+      <aside id="sidebar" class="sidebar" aria-label="Campus navigation">
+        <div class="sidebar-brand">
+          <a href="#overview" data-nav="overview" class="brand-link">
+            Smart Campus
+          </a>
+          <button
+            id="close-menu-btn"
+            type="button"
+            class="icon-btn mobile-only"
+            aria-label="Close navigation menu"
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Primary sections">
+          <a href="#overview" data-nav="overview" class="nav-item active">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="9" rx="1" />
+              <rect x="14" y="3" width="7" height="5" rx="1" />
+              <rect x="14" y="12" width="7" height="9" rx="1" />
+              <rect x="3" y="16" width="7" height="5" rx="1" />
+            </svg>
+            <span>Overview</span>
+          </a>
+          <a href="#apprentices" data-nav="apprentices" class="nav-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            <span>Apprentices</span>
+          </a>
+          <a href="#attendance" data-nav="attendance" class="nav-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4" />
+            </svg>
+            <span>Attendance</span>
+          </a>
+          <a href="#labs" data-nav="labs" class="nav-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+              <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+              <path d="M10 6h4M10 10h4M10 14h4M10 18h4" />
+            </svg>
+            <span>Labs &amp; Spaces</span>
+          </a>
+          <a href="#notices" data-nav="notices" class="nav-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="m3 11 18-5v12L3 14v-3Z" />
+              <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+            </svg>
+            <span>Campus Notices</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <p class="sidebar-footer-title">Software Apprenticeship Hub</p>
+          <p class="sidebar-footer-sub">North &amp; East Engineering Wings</p>
+          <button id="reset-demo-btn" type="button" class="text-action-btn">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+              <path d="M3 3v5h5" />
+            </svg>
+            <span>Reset Campus Data</span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="main-column">
+        <header class="topbar">
+          <div class="topbar-left">
+            <button
+              id="open-menu-btn"
+              type="button"
+              class="icon-btn mobile-only"
+              aria-label="Open navigation menu"
+            >
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <div class="breadcrumb">
+              <span class="breadcrumb-root">Smart Campus</span>
+              <span class="breadcrumb-sep" aria-hidden="true">/</span>
+              <h1 id="page-title" class="breadcrumb-current">Overview</h1>
+            </div>
+          </div>
+
+          <button id="topbar-primary-btn" type="button" class="btn btn-primary">
+            Take Roll Call
+          </button>
+        </header>
+
+        <main class="page-content">
+          <!-- OVERVIEW VIEW -->
+          <section id="view-overview" class="view-section active" aria-labelledby="page-title">
+            <div class="hero-banner">
+              <img
+                src="assets/campus-atrium.jpg"
+                alt="Software apprentices collaborating in the daylight campus atrium"
+                class="hero-banner-img"
+                referrerpolicy="no-referrer"
+              />
+              <div class="hero-scrim"></div>
+              <div class="hero-content">
+                <p class="hero-kicker">Cohort 2026-A &middot; Cohort 2026-B &middot; Daily Operations</p>
+                <h2 class="hero-headline">
+                  Coordinate apprentice cohorts, daily roll call, and engineering labs in one place.
+                </h2>
+                <div class="hero-actions">
+                  <button type="button" data-goto="attendance" class="btn btn-primary">
+                    Open Roll Call
+                  </button>
+                  <button type="button" data-goto="labs" class="btn btn-light">
+                    Explore Labs
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div id="overview-metrics" class="metric-grid" aria-label="Campus key metrics"></div>
+
+            <div class="split-grid">
+              <div class="panel panel-wide">
+                <div class="panel-header">
+                  <div>
+                    <h2 class="panel-title">Today&apos;s Lab Schedule</h2>
+                    <p class="panel-subtitle">
+                      Active workstation pods and guild rooms reserved across campus
+                    </p>
+                  </div>
+                  <button type="button" data-goto="labs" class="link-btn">
+                    Manage Labs &rarr;
+                  </button>
+                </div>
+                <div id="overview-bookings-list" class="list-divide"></div>
+              </div>
+
+              <div class="panel panel-narrow">
+                <div class="panel-header">
+                  <div>
+                    <h2 class="panel-title">Recent Notices</h2>
+                    <p class="panel-subtitle">
+                      Academic updates, workshops, and IT advisories
+                    </p>
+                  </div>
+                  <button type="button" data-goto="notices" class="link-btn">
+                    View All &rarr;
+                  </button>
+                </div>
+                <div id="overview-notices-list" class="list-divide"></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2 class="panel-title">Cohort Roster Snapshot</h2>
+                  <p class="panel-subtitle">
+                    Recent apprentice check-in status and assigned workstations
+                  </p>
+                </div>
+                <div class="header-links">
+                  <button type="button" data-goto="attendance" class="link-btn-muted">
+                    Open Roll Call
+                  </button>
+                  <button type="button" data-goto="apprentices" class="link-btn">
+                    Full Directory &rarr;
+                  </button>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Apprentice</th>
+                      <th>Track</th>
+                      <th>Desk</th>
+                      <th>Today</th>
+                      <th class="text-right">Attendance</th>
+                    </tr>
+                  </thead>
+                  <tbody id="overview-roster-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- APPRENTICES VIEW -->
+          <section id="view-apprentices" class="view-section" aria-label="Apprentice directory">
+            <div class="toolbar">
+              <div class="toolbar-cluster flex-1">
+                <div class="search-box">
+                  <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                  </svg>
+                  <input
+                    id="apprentice-search"
+                    type="search"
+                    placeholder="Search by name, ID, mentor, or desk..."
+                    aria-label="Search apprentices"
+                  />
+                </div>
+
+                <select id="apprentice-status-filter" class="select-input" aria-label="Filter by status">
+                  <option value="All">All Statuses</option>
+                  <option value="Active">Active</option>
+                  <option value="On Leave">On Leave</option>
+                  <option value="Graduated">Graduated</option>
+                </select>
+              </div>
+
+              <div id="track-filter-bar" class="segmented-bar" role="group" aria-label="Filter by engineering track">
+                <button type="button" data-track="All" class="seg-btn active">All</button>
+                <button type="button" data-track="Full-Stack" class="seg-btn">Full-Stack</button>
+                <button type="button" data-track="Cloud & DevOps" class="seg-btn">Cloud &amp; DevOps</button>
+                <button type="button" data-track="Data Engineering" class="seg-btn">Data Engineering</button>
+                <button type="button" data-track="QA Automation" class="seg-btn">QA Automation</button>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <p id="apprentice-count-label" class="panel-subtitle tabular-nums"></p>
+                <button id="inline-enroll-btn" type="button" class="link-btn">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M19 8v6M22 11h-6" />
+                  </svg>
+                  <span>Enroll Apprentice</span>
+                </button>
+              </div>
+
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Apprentice</th>
+                      <th>Track &amp; Cohort</th>
+                      <th>Mentor</th>
+                      <th>Desk</th>
+                      <th>Status</th>
+                      <th class="text-right">Attendance</th>
+                      <th class="text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="apprentices-table-body"></tbody>
+                </table>
+              </div>
+              <div id="apprentices-empty" class="empty-state hidden">
+                <p class="empty-title">No matching apprentices found</p>
+                <p class="empty-desc">Try clearing your search filter or enroll a new software apprentice.</p>
+                <button id="clear-apprentice-filters-btn" type="button" class="btn btn-secondary">
+                  Reset Filters
+                </button>
+              </div>
+            </div>
+
+            <aside id="apprentice-detail-panel" class="panel detail-drawer hidden" aria-label="Apprentice details"></aside>
+          </section>
+
+          <!-- ATTENDANCE VIEW -->
+          <section id="view-attendance" class="view-section" aria-label="Daily attendance">
+            <div id="attendance-counters" class="metric-grid"></div>
+
+            <div class="toolbar">
+              <div class="toolbar-cluster">
+                <label class="date-input-wrap">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <path d="M16 2v4M8 2v4M3 10h18" />
+                  </svg>
+                  <span class="sr-only">Attendance Date</span>
+                  <input id="attendance-date" type="date" aria-label="Attendance date" />
+                </label>
+
+                <div class="search-box compact">
+                  <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                  </svg>
+                  <input
+                    id="attendance-search"
+                    type="search"
+                    placeholder="Filter apprentice..."
+                    aria-label="Filter apprentices in roll call"
+                  />
+                </div>
+
+                <select id="attendance-track-filter" class="select-input" aria-label="Filter roll call by track">
+                  <option value="All">All Tracks</option>
+                  <option value="Full-Stack">Full-Stack</option>
+                  <option value="Cloud & DevOps">Cloud &amp; DevOps</option>
+                  <option value="Data Engineering">Data Engineering</option>
+                  <option value="QA Automation">QA Automation</option>
+                </select>
+              </div>
+
+              <div class="toolbar-cluster">
+                <button id="export-attendance-btn" type="button" class="btn btn-secondary">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  <span>Download CSV</span>
+                </button>
+                <button id="mark-all-present-btn" type="button" class="btn btn-secondary">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#15803d" stroke-width="2" aria-hidden="true">
+                    <path d="M18 6 7 17l-5-5" />
+                    <path d="m22 10-7.5 7.5L13 16" />
+                  </svg>
+                  <span>Mark Visible Present</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Apprentice</th>
+                      <th>Track</th>
+                      <th>Check-In</th>
+                      <th class="text-right">Roll Call Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="attendance-table-body"></tbody>
+                </table>
+              </div>
+              <div id="attendance-empty" class="empty-state hidden">
+                <p class="empty-title">No apprentices match your current filters</p>
+                <p class="empty-desc">Clear the track filter or search query to resume roll call.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- LABS & SPACES VIEW -->
+          <section id="view-labs" class="view-section" aria-label="Labs and spaces">
+            <div class="featured-spaces-grid">
+              <article class="space-photo-card">
+                <div class="space-photo-wrap">
+                  <img
+                    src="assets/lab-workstations.jpg"
+                    alt="Dual-monitor software engineering lab workstations"
+                    class="space-photo"
+                    referrerpolicy="no-referrer"
+                  />
+                </div>
+                <div class="space-photo-body">
+                  <p class="meta-line">North Wing, Floor 2 &middot; 24 Dual-Display Workstations</p>
+                  <h2 class="card-title">Lab A &middot; Backend Guild</h2>
+                  <p class="card-desc">
+                    Dedicated workstation floor equipped with local PostgreSQL sandboxes and wired gigabit uplinks for sprint pairing.
+                  </p>
+                  <button type="button" data-book-lab="LAB-A1" class="btn btn-secondary">
+                    Book Lab A
+                  </button>
+                </div>
+              </article>
+
+              <article class="space-photo-card">
+                <div class="space-photo-wrap">
+                  <img
+                    src="assets/demo-studio.jpg"
+                    alt="Tiered auditorium and presentation screen in Demo Day Studio"
+                    class="space-photo"
+                    referrerpolicy="no-referrer"
+                  />
+                </div>
+                <div class="space-photo-body">
+                  <p class="meta-line">South Wing, Floor 1 &middot; 60 Tiered Seats</p>
+                  <h2 class="card-title">Demo Day Studio</h2>
+                  <p class="card-desc">
+                    Main presentation auditorium with dual projection screens and hybrid streaming rig for weekly cohort demos.
+                  </p>
+                  <button type="button" data-book-lab="AUD-01" class="btn btn-secondary">
+                    Book Demo Studio
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div id="labs-grid" class="labs-card-grid" aria-label="All campus spaces"></div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2 class="panel-title">Scheduled Reservations</h2>
+                  <p class="panel-subtitle">
+                    Upcoming pair-programming, sprint review, and lab sessions
+                  </p>
+                </div>
+                <button id="inline-book-btn" type="button" class="btn btn-primary">
+                  Book Space
+                </button>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Booking</th>
+                      <th>Space</th>
+                      <th>Session Purpose</th>
+                      <th>Reserved By</th>
+                      <th>Date &amp; Time</th>
+                      <th class="text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bookings-table-body"></tbody>
+                </table>
+              </div>
+              <div id="bookings-empty" class="empty-state hidden">
+                <p class="empty-title">No active lab reservations</p>
+                <p class="empty-desc">Select any available lab above to book a workshop or study slot.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- CAMPUS NOTICES VIEW -->
+          <section id="view-notices" class="view-section" aria-label="Campus notices">
+            <div class="toolbar">
+              <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.3-4.3" />
+                </svg>
+                <input
+                  id="notice-search"
+                  type="search"
+                  placeholder="Search campus notices..."
+                  aria-label="Search campus notices"
+                />
+              </div>
+
+              <div id="notice-filter-bar" class="segmented-bar" role="group" aria-label="Filter notices by category">
+                <button type="button" data-category="All" class="seg-btn active">All</button>
+                <button type="button" data-category="Academic" class="seg-btn">Academic</button>
+                <button type="button" data-category="Workshop" class="seg-btn">Workshop</button>
+                <button type="button" data-category="Facilities" class="seg-btn">Facilities</button>
+                <button type="button" data-category="IT & Access" class="seg-btn">IT &amp; Access</button>
+              </div>
+            </div>
+
+            <div id="notices-feed" class="notices-feed"></div>
+            <div id="notices-empty" class="panel empty-state hidden">
+              <p class="empty-title">No notices match your filter</p>
+              <p class="empty-desc">Post a new announcement or switch category filters.</p>
+              <button id="empty-post-notice-btn" type="button" class="btn btn-primary">
+                Post Notice
+              </button>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- MODAL: ENROLL APPRENTICE -->
+    <div id="modal-apprentice" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-apprentice-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="modal-apprentice-title" class="panel-title">Enroll Software Apprentice</h2>
+          <button type="button" data-close-modal="modal-apprentice" class="icon-btn" aria-label="Close modal">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <form id="form-apprentice" class="modal-form">
+          <p id="error-apprentice" class="form-error hidden"></p>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label for="input-app-name">Full Name</label>
+              <input id="input-app-name" type="text" required placeholder="e.g. Priya Sharma" />
+            </div>
+            <div class="form-field">
+              <label for="input-app-email">Campus Email</label>
+              <input id="input-app-email" type="email" required placeholder="priya.s@campus-guild.org" />
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label for="input-app-track">Engineering Track</label>
+              <select id="input-app-track">
+                <option value="Full-Stack">Full-Stack</option>
+                <option value="Cloud & DevOps">Cloud &amp; DevOps</option>
+                <option value="Data Engineering">Data Engineering</option>
+                <option value="QA Automation">QA Automation</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="input-app-cohort">Cohort</label>
+              <input id="input-app-cohort" type="text" value="Cohort 2026-B" />
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label for="input-app-mentor">Assigned Mentor</label>
+              <input id="input-app-mentor" type="text" value="Meera Nair" />
+            </div>
+            <div class="form-field">
+              <label for="input-app-desk">Workstation Desk</label>
+              <input id="input-app-desk" type="text" placeholder="e.g. B2-22" class="mono-input" />
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" data-close-modal="modal-apprentice" class="btn btn-secondary">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Save Apprentice</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: BOOK LAB SPACE -->
+    <div id="modal-booking" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-booking-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="modal-booking-title" class="panel-title">Reserve Campus Lab or Pod</h2>
+          <button type="button" data-close-modal="modal-booking" class="icon-btn" aria-label="Close modal">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <form id="form-booking" class="modal-form">
+          <p id="error-booking" class="form-error hidden"></p>
+          <div class="form-field">
+            <label for="input-book-lab">Campus Space</label>
+            <select id="input-book-lab"></select>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label for="input-book-date">Date</label>
+              <input id="input-book-date" type="date" class="mono-input" required />
+            </div>
+            <div class="form-field">
+              <label for="input-book-slot">Time Window</label>
+              <select id="input-book-slot" class="mono-input">
+                <option value="09:00 – 11:00">09:00 – 11:00</option>
+                <option value="11:30 – 13:00">11:30 – 13:00</option>
+                <option value="14:00 – 16:00">14:00 – 16:00</option>
+                <option value="16:30 – 18:30">16:30 – 18:30</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="input-book-owner">Reserved By (Apprentice or Squad)</label>
+            <input id="input-book-owner" type="text" required placeholder="e.g. Squad 3 · Cloud & DevOps" />
+          </div>
+          <div class="form-field">
+            <label for="input-book-purpose">Session Purpose</label>
+            <input id="input-book-purpose" type="text" required placeholder="e.g. Kubernetes Deployment Dry Run" />
+          </div>
+          <div class="modal-actions">
+            <button type="button" data-close-modal="modal-booking" class="btn btn-secondary">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Confirm Reservation</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: POST NOTICE -->
+    <div id="modal-notice" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-notice-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="modal-notice-title" class="panel-title">Publish Campus Notice</h2>
+          <button type="button" data-close-modal="modal-notice" class="icon-btn" aria-label="Close modal">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <form id="form-notice" class="modal-form">
+          <p id="error-notice" class="form-error hidden"></p>
+          <div class="form-field">
+            <label for="input-notice-title">Notice Title</label>
+            <input id="input-notice-title" type="text" required placeholder="e.g. Friday Architecture Review Room Update" />
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label for="input-notice-category">Category</label>
+              <select id="input-notice-category">
+                <option value="Academic">Academic</option>
+                <option value="Workshop">Workshop</option>
+                <option value="Facilities">Facilities</option>
+                <option value="IT & Access">IT &amp; Access</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="input-notice-author">Published By</label>
+              <input id="input-notice-author" type="text" value="Campus Coordinator" />
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="input-notice-body">Message</label>
+            <textarea id="input-notice-body" rows="4" required placeholder="Provide clear schedule, room, or action details..."></textarea>
+          </div>
+          <label class="checkbox-row">
+            <input id="input-notice-pinned" type="checkbox" />
+            <span>Pin notice to top of campus feed</span>
+          </label>
+          <div class="modal-actions">
+            <button type="button" data-close-modal="modal-notice" class="btn btn-secondary">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Publish Notice</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
